@@ -1,21 +1,21 @@
-package com.example.gitapp.entity
+package com.example.gitapp.model.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 
 @Entity(
-    tableName = "repository"
+    tableName = "gitrepository"
 
 )
-data class Repository (
+data class GR (
 
     @PrimaryKey
     @Expose
     val id: Long,
     @Expose
-    val name: String
-
+    val name:
+    String
 )
 
 
