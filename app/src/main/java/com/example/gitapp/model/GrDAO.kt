@@ -7,12 +7,9 @@ import com.example.gitapp.model.entity.GR
 @Dao
 interface GrDAO {
     @get:Query("SELECT * from gitrepository")
-    val allGrs: LiveData<List<GR>>
-
-    @get:Query("SELECT * from gitrepository")
     val listGrs: List<GR>
 
-    @Query("SELECT * from gitrepository")
+    @Query("SELECT * from gitrepository ORDER BY stargazers_count DESC")
     fun getGrs(): LiveData<List<GR>>
 
 

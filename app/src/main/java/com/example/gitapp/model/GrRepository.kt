@@ -10,12 +10,11 @@ import com.example.gitapp.model.entity.GR
 class GrRepository constructor(application: Application) {
 
     private val dao: GrDAO
-    internal val allGrs: LiveData<List<GR>>
 
     init {
         val db = ProjectDatabase.getDatabase(application)
         dao = db!!.grDao()
-        allGrs = dao.allGrs
+
     }
 
     fun listGrs(): ArrayList<GR> {
@@ -35,7 +34,6 @@ class GrRepository constructor(application: Application) {
 
         override fun doInBackground(vararg params: List<GR>): Void? {
             mAsyncTaskDao.insertAll(params[0])
-            Log.e("Lucas", "Te amo lek " + mAsyncTaskDao.allGrs + " oloco meu" + params[0])
             return null
         }
 

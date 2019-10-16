@@ -9,14 +9,18 @@ import com.example.gitapp.R
 import com.example.gitapp.model.entity.GR
 import kotlinx.android.synthetic.main.item_repository.view.*
 
-class RepositoryAdapter(private val context: Context, private var GRList: List<GR>) :
+class RepositoryAdapter(private val context: Context) :
     RecyclerView.Adapter<RepositoryAdapter.RepositoryViewHolder>() {
-
+    private var GRList: List<GR> = emptyList()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RepositoryViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_repository, parent, false)
         return RepositoryViewHolder(view)
     }
 
+    fun setGrs(GRList: List<GR>){
+        this.GRList = GRList
+        notifyDataSetChanged()
+    }
     override fun getItemCount() = GRList.size
 
     override fun onBindViewHolder(holder: RepositoryViewHolder, position: Int) {

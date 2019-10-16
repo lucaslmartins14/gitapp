@@ -14,8 +14,10 @@ data class GR (
     @Expose
     val id: Long,
     @Expose
-    val name:
-    String
+    val name: String,
+    @Expose
+    val stargazers_count: Long
+
 )
 
 
