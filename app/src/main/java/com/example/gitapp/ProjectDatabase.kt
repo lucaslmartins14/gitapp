@@ -9,7 +9,7 @@ import com.example.gitapp.model.entity.GR
 
 @Database(
     entities = [GR::class],
-    version = 16,
+    version = 1,
     exportSchema = false
 )
 abstract class ProjectDatabase : RoomDatabase() {

@@ -9,7 +9,7 @@ import com.example.gitapp.model.GrRepository
 import com.example.gitapp.model.entity.GR
 import kotlinx.coroutines.Dispatchers
 
-class GitRepositoryViewModel(private val application: Application) : ViewModel() {
+class GrViewModel(private val application: Application) : ViewModel() {
     private val grRepository: GrRepository = GrRepository(application)
     internal var allGrs: LiveData<List<GR>> = MutableLiveData()
 
