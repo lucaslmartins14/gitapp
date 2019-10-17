@@ -8,3 +8,4 @@
  - Glide for image cache
  - Room for API cache
  - Livedata
+ - Instrumental test with Espresso
