@@ -1,5 +1,5 @@
 # gitapp
-# This app contains:
+  This app contains:
  - Infinite Scroll
  - Unit tests
  - Kotlin
