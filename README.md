@@ -1,5 +1,4 @@
 # gitapp
-Made with windows 10
 # This app contains:
  - Infinite Scroll
  - Unit tests
