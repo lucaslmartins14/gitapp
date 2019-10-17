@@ -123,9 +123,4 @@ class MainActivity : AppCompatActivity() {
         outState.putInt("mState",recyclerViewState)
     }
 
-//    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-//        super.onRestoreInstanceState(savedInstanceState)
-//        val recyclerViewState = savedInstanceState?.getInt("mState", 0)
-//        recyclerViewState?.let { layoutManager.scrollToPosition(it) }
-//    }
 }

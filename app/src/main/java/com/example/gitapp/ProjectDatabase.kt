@@ -25,7 +25,6 @@ abstract class ProjectDatabase : RoomDatabase() {
 
         @Volatile
         private var INSTANCE: ProjectDatabase? = null
-
         internal fun getDatabase(context: Context): ProjectDatabase? {
             if (INSTANCE == null) {
                 synchronized(ProjectDatabase::class) {
