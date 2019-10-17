@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,8 @@ import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.os.Parcelable
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,8 +40,16 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val callback = object : GenericCallback<String>(){
+            override fun call(result: String) {
+                loading = false
+                progressBar.visibility = View.GONE
+            }
+
+        }
         prefs = this.getSharedPreferences(PREFS, PRIVATE_MODE)
             if (GrRepository(application).listGrs().isEmpty()){
+                callGrs(callback)
                 this.getSharedPreferences(PREFS, PRIVATE_MODE).edit().clear().apply()
                 this.getSharedPreferences(PREFS, PRIVATE_MODE).edit()
                     .putInt("page", 1).apply()
@@ -52,17 +63,8 @@ class MainActivity : AppCompatActivity() {
         GrViewModel(application).allGrs.observe(this, Observer { grs ->
             adapter.setGrs(grs)
         })
-        val callback = object : GenericCallback<String>(){
-            override fun call(result: String) {
-                if (this.success || !this.success){
-                    loading = false
-                    progressBar.visibility = View.GONE
-                }
 
-            }
 
-        }
-        callGrs(callback)
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val pastVisibleItem = layoutManager.findLastVisibleItemPosition()
@@ -73,6 +75,11 @@ class MainActivity : AppCompatActivity() {
                     }
             }
         })
+
+        if (savedInstanceState!= null){
+            val recyclerViewState = savedInstanceState.getInt("mState", 0)
+            recyclerViewState.let { layoutManager.scrollToPosition(it) }
+        }
     }
 
     fun callGrs(callback: GenericCallback<String>) {
@@ -87,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     if (response.code() == 200){
                         callback.success = true
                         callback.call("success")
-                        Log.d("Tamojunto", "success" + response.message())
+                        Log.d("log_callback", "success " + response.message())
                         response.body()?.let {
                             GrRepository(application).createAll(response.body()!!.items)
                             this@MainActivity.getSharedPreferences(PREFS, PRIVATE_MODE).edit()
@@ -96,15 +103,29 @@ class MainActivity : AppCompatActivity() {
                     }else{
                         callback.success = false
                         callback.call("error")
+                        Toast.makeText(this@MainActivity, "Something went wrong =(", Toast.LENGTH_LONG).show()
                     }
 
                 }
                 override fun onFailure(call: Call<Object>, t: Throwable) {
                     callback.success = false
                     callback.call("error")
-                    Log.d("Tamojunto", "fail" + t.toString())
+                    Toast.makeText(this@MainActivity, "Something went wrong =(", Toast.LENGTH_LONG).show()
+                    Log.d("log_callback", "fail " + t.toString())
                 }
             })
         }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val recyclerViewState = layoutManager.findLastVisibleItemPosition()
+        outState.putInt("mState",recyclerViewState)
+    }
+
+//    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+//        super.onRestoreInstanceState(savedInstanceState)
+//        val recyclerViewState = savedInstanceState?.getInt("mState", 0)
+//        recyclerViewState?.let { layoutManager.scrollToPosition(it) }
+//    }
 }

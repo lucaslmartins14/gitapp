@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">GitApp</string>
+    <string name="repository">Repository Name</string>
+    <string name="author">Author Name</string>
+    <string name="stars">999999</string>
+    <string name="forks">Forks: 99999</string>
 </resources>
